@@ -1,7 +1,5 @@
 <?php
 
-
-//dankje ik geef jou de rechten :DThank
 /**
  * @author Donny van Walsem <donnehvw@gmail.com>
  */
@@ -93,6 +91,24 @@ class Validator
     {
         if(count($value) > $length) {
             $this->errors[$name] = 'Veld is te lang.';
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * This function checks if the given value matches a specified regular expression.
+     *
+     * @param string $name
+     * @param mixed $value
+     * @param string $regexp
+     * @return bool
+     */
+    private function validateRegexp($name, $value, $regexp)
+    {
+        if(!preg_match($regexp, $value)) {
+            $this->errors[$name] = 'Fucking loser zo hoort het niet.';
             return false;
         }
 
