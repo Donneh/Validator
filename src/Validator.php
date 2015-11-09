@@ -172,7 +172,7 @@ class Validator
     }
 
     /**
-     * Cehck if the given value is an integer.
+     * Check if the given value is an integer.
      *
      * @param $name
      * @param $value
@@ -180,7 +180,7 @@ class Validator
      */
     private function validateInteger($name, $value)
     {
-        if(is_int($value)) {
+        if(preg_match('/[^0-9]+$/', $value)) {
             return true;
         }
 
