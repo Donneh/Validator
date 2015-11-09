@@ -1,6 +1,14 @@
 <?php
 
 /**
+ * ----------------------------------------------------
+ * Validator
+ * ----------------------------------------------------
+ *
+ * This class is able to filter the form input and see if
+ * it matches given rules.
+ *
+ * @license MIT
  * @author Donny van Walsem <donnehvw@gmail.com>
  */
 class Validator
@@ -20,7 +28,12 @@ class Validator
     const PREFIX = "validate";
 
 
-    public function __construct($forminput, $rules)
+    /**
+     * Validator constructor.
+     * @param array $forminput
+     * @param array $rules
+     */
+    public function __construct(array $forminput, array $rules)
     {
         foreach($forminput as $name => $value) {
             $flags = explode('|', $rules[$name]);
@@ -28,20 +41,32 @@ class Validator
             foreach ($flags as $flag) {
                 $limit = '';
                 if(strpos($flag, ':') !== false) {
-                    $foo = explode(':', $flag);
-                    $flag = $foo[0];
-                    $limit = $foo[1];
+                    $scraps = explode(':', $flag);
+                    $flag = $scraps[0];
+                    $limit = $scraps[1];
                 }
                 call_user_func([$this, self::PREFIX . ucfirst($flag)], $name, $value, $limit);
             }
         }
     }
 
+    /**
+     * Returns all errors.
+     *
+     * @return array
+     */
     public function getErrors()
     {
         return $this->errors;
     }
 
+    /**
+     * Checks if the field is not null.
+     *
+     * @param string $name
+     * @param string $value
+     * @return bool
+     */
     private function validateRequired($name, $value)
     {
         if(empty($value)) {
@@ -52,6 +77,14 @@ class Validator
         return true;
     }
 
+    /**
+     * This function validates the value and if it's a string
+     * it will return true.
+     *
+     * @param string $name
+     * @param string $value
+     * @return bool
+     */
     private function validateString($name, $value)
     {
         if(!is_string($value)) {
@@ -62,6 +95,13 @@ class Validator
         return true;
     }
 
+    /**
+     * Validates if the given value is a valid email address.
+     *
+     * @param string $name
+     * @param mixed $value
+     * @return bool
+     */
     private function validateEmail($name, $value)
     {
         if(!filter_var($value, FILTER_VALIDATE_EMAIL)) {
@@ -77,6 +117,14 @@ class Validator
         //
     }
 
+    /**
+     * See if the given value is longer than the given length.
+     *
+     * @param $name
+     * @param $value
+     * @param $length
+     * @return bool
+     */
     private function validateMin($name, $value, $length)
     {
         if(count($value) < $length) {
@@ -87,6 +135,14 @@ class Validator
         return true;
     }
 
+    /**
+     * Check if the given string is longer than the specified length.
+     *
+     * @param $name
+     * @param $value
+     * @param $length
+     * @return bool
+     */
     private function validateMax($name, $value, $length)
     {
         if(count($value) > $length) {
@@ -115,11 +171,21 @@ class Validator
         return true;
     }
 
-    private function validateNointeger($name, $value, $length) {
-        if (strcspn($value, '0123456789') != strlen($value)) {
-            $this->errors[$name] = 'Veld bevat een getal.';
+    /**
+     * Cehck if the given value is an integer.
+     *
+     * @param $name
+     * @param $value
+     * @return bool
+     */
+    private function validateInteger($name, $value)
+    {
+        if(is_int($value)) {
+            return true;
         }
 
-        return true;
+        $this->errors[$name] = "Dit is geen getal.";
+
+        return false;
     }
 }
