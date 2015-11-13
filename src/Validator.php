@@ -35,6 +35,12 @@ class Validator
      */
     public function __construct(array $forminput, array $rules)
     {
+        array_walk( array_keys( $rules ), function( $expected ) {
+            if( !array_key_exists( $expected, $forminput ) || empty( $forminput[ $expected ] ) ) {
+                Throw new RuntimeException( 'Expected input value is either empty or doesn\'t exist.' );
+            }
+        });
+
         foreach($forminput as $name => $value) {
             $flags = explode('|', $rules[$name]);
 
