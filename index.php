@@ -1,14 +1,19 @@
 <?php
 include 'src/Validator.php';
-$foo = [
-    'foo' => 'Panda',
-    'bar' => ' '
-];
+$data = [
+    'username' => new DateTime()];
 
 $rules = [
-    'foo' => 'regexp:/^[a-zA-Z\s]*$/',
-    'bar' => 'regexp:/^[a-zA-Z\s]*$/'
+    'username' => 'date'
 ];
+//
+$validator = new Validation\Validator($data, $rules);
+var_dump($validator->errors());
 
-$validator = new Validator($foo, $rules);
-var_dump($validator->getErrors());
+var_dump($_POST);
+?>
+
+<form method="post">
+    <input type="file" name="file">
+    <input type="submit">
+</form>
