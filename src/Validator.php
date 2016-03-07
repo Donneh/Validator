@@ -23,7 +23,7 @@ class Validator
     private $implicit_rules = [
         'required', 'email', 'ip', 'numeric',
         'integer', 'boolean', 'array', 'string',
-        'json', 'url', 'date', 'file'
+        'json', 'url', 'date', 'length', 'min', 'max'
     ];
     private $errors;
 
@@ -67,7 +67,6 @@ class Validator
             foreach($rule as $value) {
                 $param = strpos($value, ':') !== false ? explode(':', $value) : null;
                 $value = $param ? $param[0] : $value;
-
 
 
                 $method = self::PREFIX . ucfirst($value);
@@ -291,6 +290,14 @@ class Validator
         return false;
     }
 
+    /**
+     * Validate if the given value is shorter than the length specified.
+     *
+     * @param $key
+     * @param $value
+     * @param $length
+     * @return bool
+     */
     private function validateMax($key, $value, $length)
     {
         if(strlen($value) > $length) {
@@ -299,5 +306,42 @@ class Validator
         }
 
         return true;
+    }
+
+    /**
+     * Validate if the given value is longer than the specified length.
+     *
+     * @param $key
+     * @param $value
+     * @param $length
+     * @return bool
+     */
+    private function validateMin($key, $value, $length)
+    {
+        if(strlen($value) < $length) {
+            $this->errors[$key] = "{$key} is shorter than {$length} characters.";
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Validate if the given value is the same length as the specified length.
+     *
+     * @param $key
+     * @param $value
+     * @param $length
+     * @return bool
+     */
+    private function validateLength($key, $value, $length)
+    {
+        if(strlen($value) == $length) {
+
+            return true;
+        }
+
+        $this->errors[$key] = "{$key} is not {$length} characters long.";
+        return false;
     }
 }
