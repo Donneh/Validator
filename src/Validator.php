@@ -13,7 +13,7 @@
  */
 
 
-namespace Validation;
+namespace Donneh;
 
 class Validator
 {
@@ -21,18 +21,9 @@ class Validator
     private $data;
     private $rules;
     private $implicit_rules = [
-        'required',
-        'email',
-        'ip',
-        'numeric',
-        'integer',
-        'boolean',
-        'array',
-        'string',
-        'json',
-        'url',
-        'date',
-        'file'
+        'required', 'email', 'ip', 'numeric',
+        'integer', 'boolean', 'array', 'string',
+        'json', 'url', 'date', 'file'
     ];
     private $errors;
 
@@ -59,13 +50,12 @@ class Validator
     }
 
     /**
-     *
-     *
+     * @param null $key
      * @return mixed
      */
-    public function errors()
+    public function errors($key = null)
     {
-        return $this->errors;
+        return empty($key) ? $this->errors : $this->errors[$key];
     }
 
     /**
@@ -75,8 +65,14 @@ class Validator
     {
         foreach($this->rules as $key => $rule) {
             foreach($rule as $value) {
+                $param = strpos($value, ':') !== false ? explode(':', $value) : null;
+                $value = $param ? $param[0] : $value;
+
+
+
                 $method = self::PREFIX . ucfirst($value);
-                $this->$method($key, $this->data[$key]);
+
+                $this->$method($key, $this->data[$key], $param[1]);
             }
         }
     }
@@ -107,6 +103,7 @@ class Validator
     {
         if(is_array($value) && empty($value)) {
             $this->errors[$key] = "{$key} can not be empty.";
+
             return false;
         } elseif(is_string($value) && !trim($value)) {
             $this->errors[$key] = "{$key} can not be empty.";
@@ -292,5 +289,15 @@ class Validator
 
         $this->errors[$key] = "{$key} is not a valid date.";
         return false;
+    }
+
+    private function validateMax($key, $value, $length)
+    {
+        if(strlen($value) > $length) {
+            $this->errors[$key] = "{$key} is longer than {$length} characters.";
+            return false;
+        }
+
+        return true;
     }
 }

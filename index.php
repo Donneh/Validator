@@ -1,19 +1,11 @@
 <?php
-include 'src/Validator.php';
+include "vendor/autoload.php";
 $data = [
-    'username' => new DateTime()];
+    'username' => 'fff',
+];
 
 $rules = [
-    'username' => 'date'
+    'username' => 'max:2',
 ];
-//
-$validator = new Validation\Validator($data, $rules);
+$validator = new \Donneh\Validator($data, $rules);
 var_dump($validator->errors());
-
-var_dump($_POST);
-?>
-
-<form method="post">
-    <input type="file" name="file">
-    <input type="submit">
-</form>
