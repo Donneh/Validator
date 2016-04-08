@@ -33,12 +33,6 @@ class Validator
      */
     private $rules;
 
-    private $implicit_rules = [
-        'required', 'email', 'ip', 'numeric',
-        'integer', 'boolean', 'array', 'string',
-        'json', 'url', 'date', 'length', 'min', 'max'
-    ];
-
     /**
      * Contains any errors that occurred during the validation.
      * @var array
@@ -49,7 +43,7 @@ class Validator
     /**
      * The prefix that all validation functions must use, these
      * will be automatically called.
-     * @var const PREFIX
+     * @var string PREFIX
      */
     const PREFIX = "validate";
 
@@ -118,7 +112,7 @@ class Validator
      * @param string $value
      * @return bool
      */
-    private function validateRequired($key, $value)
+    protected function validateRequired($key, $value)
     {
         if(is_array($value) && empty($value)) {
             $this->errors[$key] = "{$key} can not be empty.";
@@ -140,7 +134,7 @@ class Validator
      * @param string $value
      * @return bool
      */
-    private function validateEmail($key, $value)
+    protected function validateEmail($key, $value)
     {
         if(!filter_var($value, FILTER_VALIDATE_EMAIL)) {
             $this->errors[$key] = "{$key} is not a valid e-mail address.";
@@ -157,7 +151,7 @@ class Validator
      * @param string $value
      * @return bool
      */
-    private function validateIp($key, $value)
+    protected function validateIp($key, $value)
     {
         if(!filter_var($value, FILTER_VALIDATE_IP)) {
             $this->errors[$key] = "{$key} is not a valid IP address";
@@ -174,7 +168,7 @@ class Validator
      * @param string $value
      * @return bool
      */
-    private function validateInteger($key, $value)
+    protected function validateInteger($key, $value)
     {
         if(!filter_var($value, FILTER_VALIDATE_INT)) {
             $this->errors[$key] = "{$key} is not an integer.";
@@ -191,7 +185,7 @@ class Validator
      * @param string $value
      * @return bool
      */
-    private function validateNumeric($key, $value)
+    protected function validateNumeric($key, $value)
     {
         if(is_null($value) || !is_numeric($value)) {
             $this->errors[$key] = "{$key} is not an numeric value.";
@@ -208,7 +202,7 @@ class Validator
      * @param string $value
      * @return bool
      */
-    private function validateBoolean($key, $value)
+    protected function validateBoolean($key, $value)
     {
         $acceptable = [true, false, 1, 0, '1', '0'];
 
@@ -227,7 +221,7 @@ class Validator
      * @param string $value
      * @return bool
      */
-    private function validateArray($key, $value)
+    protected function validateArray($key, $value)
     {
         if(is_array($value)) {
             return true;
@@ -244,7 +238,7 @@ class Validator
      * @param string $value
      * @return bool
      */
-    private function validateString($key, $value)
+    protected function validateString($key, $value)
     {
         if(is_string($value)) {
 
@@ -262,7 +256,7 @@ class Validator
      * @param string $value
      * @return bool
      */
-    private function validateJson($key, $value)
+    protected function validateJson($key, $value)
     {
         json_decode($value);
 
@@ -283,7 +277,7 @@ class Validator
      * @param string $value
      * @return bool
      */
-    private function validateUrl($key, $value)
+    protected function validateUrl($key, $value)
     {
         if(!filter_var($value, FILTER_VALIDATE_URL)) {
             $this->errors[$key] = "{$key} is not a valid url.";
@@ -300,7 +294,7 @@ class Validator
      * @param string $value
      * @return bool
      */
-    private function validateDate($key, $value)
+    protected function validateDate($key, $value)
     {
         if($value instanceof \DateTime) {
             return true;
@@ -318,7 +312,7 @@ class Validator
      * @param $length
      * @return bool
      */
-    private function validateMax($key, $value, $length)
+    protected function validateMax($key, $value, $length)
     {
         if(strlen($value) > $length) {
             $this->errors[$key] = "{$key} is longer than {$length} characters.";
@@ -336,7 +330,7 @@ class Validator
      * @param $length
      * @return bool
      */
-    private function validateMin($key, $value, $length)
+    protected function validateMin($key, $value, $length)
     {
         if(strlen($value) < $length) {
             $this->errors[$key] = "{$key} is shorter than {$length} characters.";
@@ -354,7 +348,7 @@ class Validator
      * @param $length
      * @return bool
      */
-    private function validateLength($key, $value, $length)
+    protected function validateLength($key, $value, $length)
     {
         if(strlen($value) == $length) {
 
