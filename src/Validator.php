@@ -1,5 +1,4 @@
 <?php
-
 /**
  * ----------------------------------------------------
  * Validator
@@ -15,16 +14,35 @@
 
 namespace Donneh;
 
+/**
+ * Class Validator
+ * @package Donneh
+ */
 class Validator
 {
 
+    /**
+     * Contains the input data.
+     * @var array
+     */
     private $data;
+
+    /**
+     * Specifies the requirements that the values need to meet.
+     * @var array
+     */
     private $rules;
+
     private $implicit_rules = [
         'required', 'email', 'ip', 'numeric',
         'integer', 'boolean', 'array', 'string',
         'json', 'url', 'date', 'length', 'min', 'max'
     ];
+
+    /**
+     * Contains any errors that occurred during the validation.
+     * @var array
+     */
     private $errors;
 
 
@@ -50,7 +68,9 @@ class Validator
     }
 
     /**
-     * @param null $key
+     * Returns all the errors.
+     *
+     * @param string $key
      * @return mixed
      */
     public function errors($key = null)
@@ -94,8 +114,8 @@ class Validator
     /**
      * Validate that the value is not empty.
      *
-     * @param $key
-     * @param $value
+     * @param string $key
+     * @param string $value
      * @return bool
      */
     private function validateRequired($key, $value)
@@ -116,8 +136,8 @@ class Validator
     /**
      * Validate if the value is a valid e-mail address.
      *
-     * @param $key
-     * @param $value
+     * @param string $key
+     * @param string $value
      * @return bool
      */
     private function validateEmail($key, $value)
@@ -133,8 +153,8 @@ class Validator
     /**
      * Validate if the given value is a vaild IP address.
      *
-     * @param $key
-     * @param $value
+     * @param string $key
+     * @param string $value
      * @return bool
      */
     private function validateIp($key, $value)
@@ -150,8 +170,8 @@ class Validator
     /**
      * Validate if the given value is an integer.
      *
-     * @param $key
-     * @param $value
+     * @param string $key
+     * @param string $value
      * @return bool
      */
     private function validateInteger($key, $value)
@@ -167,8 +187,8 @@ class Validator
     /**
      * Validate if the given value is numeric.
      *
-     * @param $key
-     * @param $value
+     * @param string $key
+     * @param string $value
      * @return bool
      */
     private function validateNumeric($key, $value)
@@ -184,8 +204,8 @@ class Validator
     /**
      * Validate if the given value is a boolean.
      *
-     * @param $key
-     * @param $value
+     * @param string $key
+     * @param string $value
      * @return bool
      */
     private function validateBoolean($key, $value)
@@ -203,8 +223,8 @@ class Validator
     /**
      * Validate if given value is an array.
      *
-     * @param $key
-     * @param $value
+     * @param string $key
+     * @param string $value
      * @return bool
      */
     private function validateArray($key, $value)
@@ -220,8 +240,8 @@ class Validator
     /**
      * Validate if given value is a string.
      *
-     * @param $key
-     * @param $value
+     * @param string $key
+     * @param string $value
      * @return bool
      */
     private function validateString($key, $value)
@@ -238,8 +258,8 @@ class Validator
     /**
      * Validate if the given value is valid JSON.
      *
-     * @param $key
-     * @param $value
+     * @param string $key
+     * @param string $value
      * @return bool
      */
     private function validateJson($key, $value)
@@ -259,8 +279,8 @@ class Validator
     /**
      * Validate if the given value is a valid url.
      *
-     * @param $key
-     * @param $value
+     * @param string $key
+     * @param string $value
      * @return bool
      */
     private function validateUrl($key, $value)
@@ -276,8 +296,8 @@ class Validator
     /**
      * Validate if the given value is a date.
      *
-     * @param $key
-     * @param $value
+     * @param string $key
+     * @param string $value
      * @return bool
      */
     private function validateDate($key, $value)
@@ -293,8 +313,8 @@ class Validator
     /**
      * Validate if the given value is shorter than the length specified.
      *
-     * @param $key
-     * @param $value
+     * @param string $key
+     * @param string $value
      * @param $length
      * @return bool
      */
@@ -311,8 +331,8 @@ class Validator
     /**
      * Validate if the given value is longer than the specified length.
      *
-     * @param $key
-     * @param $value
+     * @param string $key
+     * @param string $value
      * @param $length
      * @return bool
      */
@@ -329,8 +349,8 @@ class Validator
     /**
      * Validate if the given value is the same length as the specified length.
      *
-     * @param $key
-     * @param $value
+     * @param string $key
+     * @param string $value
      * @param $length
      * @return bool
      */
